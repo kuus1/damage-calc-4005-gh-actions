@@ -17,4 +17,11 @@ jobs:
         node-version: '18.15.0'
     
     - run: yarn install
-    - run: yarn test
+    - name: Run tests with Junit as reporter
+      run: npx jest --ci --reporterers=default --reporters=jest-junit
+      env:
+        JEST_JUNIT_OUTPUT_DIR: "./jumit/test-results.xml"
+    - uses: actions/upload artifact@v3
+      with:
+        path: ./junit/test-results.xml
+      if: always()
